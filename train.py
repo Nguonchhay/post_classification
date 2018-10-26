@@ -67,7 +67,6 @@ def make_dataset(dictionary):
                 feature_labels.append(5)
             else:
                 feature_labels.append(0)
-
     return feature_set, feature_labels
 
 
@@ -77,13 +76,13 @@ features, labels = make_dataset(dictionary)
 # print(dictionary)
 # print(features)
 # print(labels)
-
-x_train, x_test, y_train, y_test = tts(features, labels, test_size=0.1)
-
-# Train with Naive Bayes
-clf = MultinomialNB()
-clf.fit(x_train, y_train)
-
-preds = clf.predict(x_test)
-print(accuracy_score(y_test, preds))
-save(clf, "category-classifier.p")
+#
+# x_train, x_test, y_train, y_test = tts(features, labels, test_size=0.1)
+#
+# # Train with Naive Bayes
+# clf = MultinomialNB()
+# clf.fit(x_train, y_train)
+#
+# preds = clf.predict(x_test)
+# # print(accuracy_score(y_test, preds))
+# save(clf, "category-classifier.p")
