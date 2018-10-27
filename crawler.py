@@ -1,3 +1,4 @@
+from collections import Counter
 from functions import *
 
 
@@ -29,24 +30,30 @@ def craw_posts():
 # Find keywords for category
 def find_keywords_by_posts():
     tokenized_posts = get_tokenized_posts_group_by_category_folders()
+    category_keywords = init_category_keywords()
+    for tokenized_post in tokenized_posts:
+        obj_file = open(tokenized_post)
+        if obj_file is not None:
+            # Split by white space (hidden space)
+            words = obj_file.read().split('​')
 
-    # for tokenized_post in tokenized_posts:
-    #     print(tokenized_post)
+            # @TODO: move this logic to a proper method
+            for i in range(len(words)):
+                words[i] = clean_word(words[i])
 
-        # if 'sport' in category:
-        #     feature_labels.append(1)
-        # elif 'entertainment' in category:
-        #     feature_labels.append(2)
-        # elif 'technology' in category:
-        #     feature_labels.append(3)
-        # elif 'life_and_social' in category:
-        #     feature_labels.append(4)
-        # elif 'food' in category:
-        #     feature_labels.append(5)
-        # else:
-        #     feature_labels.append(0)
-    #print(tokenized_posts)
-    #print(len(tokenized_posts))
+            category = get_compare_category_label(tokenized_post)
+            category_keywords[category] += words
+
+    # Clean keywords from database
+    clean_table_db('keywords')
+
+    # Save all categories keywords to database
+    for category in category_keywords:
+        keyword_dictionary = Counter(category_keywords[category])
+        del keyword_dictionary['']
+
+        # Save keywords to database
+        save_keywords_db(category, keyword_dictionary)
 
 
 # Clean posts
@@ -57,11 +64,3 @@ def find_keywords_by_posts():
 
 # Find keywords by tokenized posts and group by category
 find_keywords_by_posts()
-
-
-test = []
-test[1].append('1')
-#test['1'] += ['12']
-#test['1'] += ['123']
-print(test)
-
