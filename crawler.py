@@ -38,11 +38,16 @@ def find_keywords_by_posts():
             words = obj_file.read().split('​')
 
             # @TODO: move this logic to a proper method
+            all_words = []
             for i in range(len(words)):
                 words[i] = clean_word(words[i])
+                if ' ' in words[i]:
+                    all_words += words[i].split(' ')
+                else:
+                    all_words.append(words[i])
 
             category = get_compare_category_label(tokenized_post)
-            category_keywords[category] += words
+            category_keywords[category] += all_words
 
     # Clean keywords from database
     clean_table_db('keywords')
