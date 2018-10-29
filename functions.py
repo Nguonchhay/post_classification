@@ -81,24 +81,10 @@ def get_post_data_from_online(link_post):
 
 
 # Create dictionary from post
-def make_dict():
-    data_directory = "tokenized_posts/"
-    files = os.listdir(data_directory)
-    posts = [data_directory + post for post in files]
-    words = []
-
-    for category in categories:
-        with open(category, encoding='utf-8') as f:
-            if f is not None:
-                content = f.read()
-                words += content.splitlines()
-
-    for i in range(len(words)):
-        words[i] = words[i].strip()
-
-    dict = Counter(words)
-    del dict['']
-    return dict.most_common(3000)
+def make_keywords_dict():
+    query = 'SELECT * FROM keywords WHERE frequency > 9'
+    data = databaseCon.Database.execute_query(con, query)
+    return data
 
 
 # Get category array

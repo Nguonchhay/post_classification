@@ -1,10 +1,14 @@
 import os
+import pickle
+import codecs
+
 from collections import Counter
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split as tts
 from sklearn.metrics import accuracy_score
-import pickle
-import codecs
+
+from functions import *
+
 
 # Keyword searching:
 #   - https://www.enchantedlearning.com/wordlist/sports.shtml
@@ -19,7 +23,8 @@ def save(clf, name):
     print("saved")
 
 
-def make_dict():
+def make_dict1():
+    query = ''
     data_directory = "category/"
     files = os.listdir(data_directory)
     categories = [data_directory + category for category in files]
@@ -70,8 +75,9 @@ def make_dataset(dictionary):
     return feature_set, feature_labels
 
 
-dictionary = make_dict()
-features, labels = make_dataset(dictionary)
+dictionary = make_keywords_dict()
+print(dictionary)
+# features, labels = make_dataset(dictionary)
 
 # print(dictionary)
 # print(features)
