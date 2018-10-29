@@ -25,4 +25,12 @@ class Database:
         )
 
         # gets the number of rows affected by the command executed
+        return self.cursor.fetchall()
+
+    def select_one(self, query):
+        self.cursor.execute(
+            query
+        )
+
+        # gets the number of rows affected by the command executed
         return self.cursor.fetchone()

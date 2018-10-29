@@ -2,6 +2,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 import databaseCon
+import pickle
 from collections import Counter
 
 
@@ -14,6 +15,16 @@ def save_text_file(path_and_filename, content):
     f = open(path_and_filename, "w+")
     f.write(content)
     f.close()
+
+
+# Create classifier file from dataset
+def save(clf, name):
+    pickle.dump(clf, open(name, "wb"))
+
+
+# Load classifier from file
+def load_dataset(clf_file):
+    return pickle.load(open(clf_file, "rb"))
 
 
 # Clean crawl posts
@@ -80,11 +91,41 @@ def get_post_data_from_online(link_post):
     return post_content
 
 
+# Generate sample for none category keywords
+def generate_none_category_keywords():
+    return [[0, 'none'], [0, 'n/a'], [0, 'no'], [0, 'nothing']]
+
+
+# Create keywords dictionary from database
+def make_keywords_dictionary():
+    # Select all keyword that happen more than 9 times
+    query = 'SELECT category_id, text FROM keywords WHERE frequency > 9 ORDER BY category_id;'
+    query_result = databaseCon.Database.execute_query(con, query)
+    # keywords = generate_none_category_keywords()
+    keywords = []
+    for result in query_result:
+        keywords.append([result[0], result[1]])
+
+    return keywords
+
+
 # Create dictionary from post
-def make_keywords_dict():
-    query = 'SELECT * FROM keywords WHERE frequency > 9'
-    data = databaseCon.Database.execute_query(con, query)
-    return data
+def make_keywords_dataset(dictionary):
+    features_set = []
+    labels_set = []
+
+    categories = [0, 1, 2, 3, 4, 5]
+    for category in categories:
+        data = []
+        for entry in dictionary:
+            if entry[0] == category:
+                data.append(1)
+            else:
+                data.append(0)
+        features_set.append(data)
+        labels_set.append(category)
+
+    return features_set, labels_set
 
 
 # Get category array
@@ -139,3 +180,20 @@ def save_keywords_db(category, keyword_dictionary):
     print('- Saved ' + category + ' keywords to database')
     if has_keyword:
         databaseCon.Database.execute(con, sql)
+
+
+# Loop predict by enable user to input the sentence
+def loop_predict(dictionary):
+    # Loop input
+    while True:
+        features = []
+        inp = input("Enter test keyword: ")
+        words = inp.split('​')
+        if inp[0] == "exit":
+            break
+        for word in dictionary:
+            features.append(words.count(word[1]))
+
+        res = clf.predict([features])
+        predict = ["none", "កីឡា", "ទេសចរណ៍", "ឡាននិងបច្ចេកវិទ្យា", "សុខភាពនិងសម្រស់", "ម្ហូប"][res[0]]
+        print(inp + ' => ' + predict)
