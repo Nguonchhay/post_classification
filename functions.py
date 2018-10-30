@@ -9,6 +9,9 @@ from collections import Counter
 # Initialize database object
 con = databaseCon.Database()
 
+# Frequency of keyword
+keyword_frequency = 9
+
 
 # Create text file to HDD
 def save_text_file(path_and_filename, content):
@@ -96,6 +99,32 @@ def get_post_data_from_online(link_post):
     return post_content
 
 
+# Check whether keyword is exist
+def check_trained_keyword_exist(category, keyword):
+    query = 'SELECT * FROM keywords WHERE category_id=' + str(category) + ' AND text="' + keyword + '" LIMIT 1'
+    query_keyword = databaseCon.Database.select_one(con, query)
+    return query_keyword
+
+
+# Save new keywords to the found category
+def update_keyword_frequency(category, keyword, enable_msg = False):
+    query_keyword = check_trained_keyword_exist(category, keyword)
+    if query_keyword is None:
+        update_query = 'INSERT INTO keywords(category_id,text,frequency) VALUES('
+        update_query += str(category) + ',"' + keyword + '",1)'
+        databaseCon.Database.execute(con, update_query)
+        if enable_msg:
+            print('==> Keyword: "' + keyword + '" was added to category: ' + str(category))
+    else:
+        frequency = int(query_keyword[3])
+        if frequency < (keyword_frequency + 1):
+            update_query = 'UPDATE keywords SET frequency=' + str(frequency + 1)
+            update_query += ' WHERE id=' + str(query_keyword[0])
+            databaseCon.Database.execute(con, update_query)
+            if enable_msg:
+                print('==> Keyword: "' + keyword + '" was updated frequency from ' + str(frequency) + ' to : ' + str(frequency + 1))
+
+
 # Generate sample for none category keywords
 def generate_none_category_keywords():
     return [[0, 'none'], [0, 'n/a'], [0, 'no'], [0, 'nothing']]
@@ -104,7 +133,7 @@ def generate_none_category_keywords():
 # Create keywords dictionary from database
 def make_keywords_dictionary():
     # Select all keyword that happen more than 9 times
-    query = 'SELECT category_id, text FROM keywords WHERE frequency > 9 ORDER BY category_id;'
+    query = 'SELECT category_id, text FROM keywords WHERE frequency > ' + str(keyword_frequency) + ' ORDER BY category_id;'
     query_result = databaseCon.Database.execute_query(con, query)
     # keywords = generate_none_category_keywords()
     keywords = []
