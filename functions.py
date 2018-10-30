@@ -22,6 +22,15 @@ def save(clf, name):
     pickle.dump(clf, open(name, "wb"))
 
 
+# Delete file
+def delete_file(path_and_filename):
+    try:
+        if os.path.isfile(path_and_filename):
+            os.unlink(path_and_filename)
+    except Exception as e:
+        print(e)
+
+
 # Load classifier from file
 def load_dataset(clf_file):
     return pickle.load(open(clf_file, "rb"))
@@ -32,11 +41,7 @@ def clean_craw_post():
     folder = 'raw_posts'
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
-        try:
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
-        except Exception as e:
-            print(e)
+        delete_file(file_path)
 
 
 # Check post category label

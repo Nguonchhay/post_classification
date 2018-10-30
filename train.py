@@ -17,5 +17,8 @@ clf.fit(x_train, y_train)
 # preds = clf.predict(x_test)
 # print(accuracy_score(y_test, preds))
 
-save(clf, "category-classifier.p")
-print("Save the classifier from dataset")
+# delete trained file
+delete_file('category-classifier.p')
+
+save(clf, 'category-classifier.p')
+print('Save the classifier from dataset')
