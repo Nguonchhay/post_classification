@@ -92,10 +92,12 @@ def get_post_data_from_online(link_post):
     soup_article = BeautifulSoup(article.text, 'html.parser')
     query_title = soup_article.find_all('div', class_='container-inner')
     query_content = soup_article.find_all('div', class_='paragraph-style')
-    post_content = query_title[0].h2.text + '\n\n'
-    for para in query_content[0].find_all('p'):
-        para_text = para.text.strip()
-        post_content += para_text + '\n'
+    post_content = ''
+    if query_title is not None and query_content is not None:
+        post_content = query_title[0].h2.text + '\n\n'
+        for para in query_content[0].find_all('p'):
+            para_text = para.text.strip()
+            post_content += para_text + '\n'
     return post_content
 
 

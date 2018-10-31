@@ -19,12 +19,15 @@ def craw_posts():
                     link_post = link_post.strip()
                     if link_post != '':
                         post_content = get_post_data_from_online(link_post)
-                        # Save post to file
-                        path_and_filename = generate_post_filename(file_category, link_post, num_post)
-                        save_text_file(path_and_filename, post_content)
-                        message = str(num_post) + '. Load post from: ' + link_post + '\n and saved to: ' + path_and_filename + '\n'
-                        num_post += 1
-                        print(message)
+                        if post_content is not '':
+                            # Save post to file
+                            path_and_filename = generate_post_filename(file_category, link_post, num_post)
+                            save_text_file(path_and_filename, post_content)
+                            message = str(num_post) + '. Load post from: ' + link_post + '\n and saved to: ' + path_and_filename + '\n'
+                            num_post += 1
+                            print(message)
+                        else:
+                            print('There is no post data from ' + link_post)
 
 
 # Find keywords for category
