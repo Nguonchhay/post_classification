@@ -70,5 +70,10 @@ def find_keywords_by_posts():
 # Re-crawl post
 # craw_posts()
 
+# Save tokenized post to data
+
 # Find keywords by tokenized posts and group by category
 find_keywords_by_posts()
+
+# Save tokenized posts and its keywords
+save_posts_and_keywords()

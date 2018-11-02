@@ -218,6 +218,47 @@ def save_keywords_db(category, keyword_dictionary):
         databaseCon.Database.execute(con, sql)
 
 
+# Find keywords by post
+def find_keywords_by_post(post_content):
+    words = post_content.split('​')
+
+    # @TODO: move this logic to a proper method
+    all_words = []
+    for i in range(len(words)):
+        words[i] = clean_word(words[i])
+        if ' ' in words[i]:
+            all_words += words[i].split(' ')
+        else:
+            all_words.append(words[i])
+    return all_words
+
+
+# Save tokenized posts and its keywords to databases
+def save_posts_and_keywords():
+    # Clean posts from database
+    clean_table_db('posts')
+
+    tokenized_posts = get_tokenized_posts_group_by_category_folders()
+    num = 0
+    for tokenized_post in tokenized_posts:
+        obj_file = open(tokenized_post)
+        if obj_file is not None:
+            post_data = obj_file.read().splitlines()
+            post_title = post_data[1].strip()
+            post_content = ''
+            for i in range(3, len(post_data)):
+                post_content += post_data[i].replace('"', "'") + '\n'
+
+            post_content = post_content.strip()
+            if post_title is not '' and post_content is not '':
+                dict = Counter(find_keywords_by_post(post_content))
+                del dict['']
+                keywords = ','.join(dict)
+                sql = 'INSERT INTO posts (title,content,keywords) VALUES("' + post_title + '","' + post_content + '","' + keywords + '")'
+                databaseCon.Database.execute(con, sql)
+                num += 1
+    print(str(num) + ' posts were saved to database')
+
 # Loop predict by enable user to input the sentence
 def loop_predict(dictionary):
     # Loop input
