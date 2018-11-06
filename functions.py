@@ -254,10 +254,19 @@ def save_posts_and_keywords():
                 dict = Counter(find_keywords_by_post(post_content))
                 del dict['']
                 keywords = ','.join(dict)
-                sql = 'INSERT INTO posts (title,content,keywords) VALUES("' + post_title + '","' + post_content + '","' + keywords + '")'
+                category_id = get_compare_category_identifier(tokenized_post)
+                sql = 'INSERT INTO posts (category_id,title,content,keywords) VALUES(' + str(category_id) + ',"' + post_title + '","' + post_content + '","' + keywords + '")'
                 databaseCon.Database.execute(con, sql)
                 num += 1
     print(str(num) + ' posts were saved to database')
+
+
+# Get all posts by category
+def get_posts_by_category_and_keyword(category_id, keyword):
+    sql = 'SELECT id,category_id,title,content,keywords FROM posts WHERE category_id=' + str(category_id) + ' AND keywords LIKE "%' + keyword + '%"'
+    posts = databaseCon.Database.execute_query(con, sql)
+    return posts
+
 
 # Loop predict by enable user to input the sentence
 def loop_predict(dictionary):
@@ -291,3 +300,4 @@ def predict_category(features):
     res = clf.predict([features])
     predict = ["none", "កីឡា", "ទេសចរណ៍", "ឡាននិងបច្ចេកវិទ្យា", "សុខភាពនិងសម្រស់", "ម្ហូប"][res[0]]
     return [res[0], predict]
+

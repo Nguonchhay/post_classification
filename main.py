@@ -1,4 +1,5 @@
 from functions import *
+from operator import itemgetter, attrgetter
 
 
 # Read from files for more sentences
@@ -20,15 +21,34 @@ dictionary = make_keywords_dictionary()
 #     result = predict_category(features)
 #     print(result[0] + ' => ' + result[1])
 
-ss = 'រមណីយដ្ឋាន​មណ្ឌលគិរី​បឹងយក្សឡោម​ដើរលេង'
+ss = 'កីឡាករ​ទៅដើរលេង​រមណីយដ្ឋាន​មណ្ឌលគិរី'
 
 features = sentence_to_features(dictionary, ss)
 words = ss.split('​')
+print(words)
 result = predict_category(features)
-print(str(result[0]) + ' => ' + result[1] + '\n')
+print('Predict result: ' + str(result[0]) + ' => ' + result[1] + '\n')
 
-# Update keyword frequency of found category
+# # Update keyword frequency of found category
+# if result[0] > 0:
+#     for keyword in words:
+#         print('- ' + keyword)
+#         update_keyword_frequency(result[0], keyword, True)
+
+# Display related posts
 if result[0] > 0:
+    keyword_posts = []
     for keyword in words:
-        print('- ' + keyword)
-        update_keyword_frequency(result[0], keyword, True)
+        posts = get_posts_by_category_and_keyword(result[0], keyword)
+        keyword_posts.append([len(posts), keyword, posts])
+
+    # sort keyword_posts
+    sort_keyword_posts = sorted(keyword_posts, key=itemgetter(0), reverse=True)
+
+    # Display posts
+    for sort_keyword_post in sort_keyword_posts:
+        print('* ' + sort_keyword_post[1] + ':')
+        for post in sort_keyword_post[2]:
+            print('\t - ' + str(post[0]) + ' | ' + post[2])
+
+        print('---------------------------------------------------------------------------------------------------------')
