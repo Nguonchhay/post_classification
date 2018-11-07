@@ -29,14 +29,8 @@ print(words)
 result = predict_category(features)
 print('Predict result: ' + str(result[0]) + ' => ' + result[1] + '\n')
 
-# # Update keyword frequency of found category
-# if result[0] > 0:
-#     for keyword in words:
-#         print('- ' + keyword)
-#         update_keyword_frequency(result[0], keyword, True)
-
-# Display related posts
 if result[0] > 0:
+    # Display related posts
     keyword_posts = []
     for keyword in words:
         posts = get_posts_by_category_and_keyword(result[0], keyword)
@@ -52,3 +46,8 @@ if result[0] > 0:
             print('\t - ' + str(post[0]) + ' | ' + post[2])
 
         print('---------------------------------------------------------------------------------------------------------')
+
+    # Update keyword frequency of found category
+    for keyword in words:
+        print('- ' + keyword)
+        update_keyword_frequency(result[0], keyword, True)
