@@ -189,7 +189,11 @@ def get_tokenized_posts_group_by_category_folders():
 # Clean khmer word
 def clean_word(word):
     word = word.strip()
-    clean_docs = ['\n', '«', '»', '៕', '។', 'ៗ', '!', '៖', ',', '?', ')', '(', '"']
+    clean_docs = []
+    obj_file = open('clean_word_list.txt')
+    if obj_file is not None:
+        clean_docs = obj_file.read().splitlines()
+
     for clean_doc in clean_docs:
         word = word.replace(clean_doc, '')
     return word
@@ -286,8 +290,7 @@ def loop_predict(dictionary):
 
 
 # Convert word list to features for search
-def sentence_to_features(dict, sentence):
-    words = sentence.split('​')
+def sentence_to_features(dict, words):
     features = []
     for keyword in dict:
         features.append(words.count(keyword[1]))

@@ -21,11 +21,21 @@ dictionary = make_keywords_dictionary()
 #     result = predict_category(features)
 #     print(result[0] + ' => ' + result[1])
 
-ss = 'កីឡាករ​ទៅដើរលេង​រមណីយដ្ឋាន​មណ្ឌលគិរី'
-
-features = sentence_to_features(dictionary, ss)
+ss = 'កីឡាករ​រមណីដ្ឋាន​នៃ​ប្រទេសកម្ពុជា​នៅ​ខេត្តមណ្ឌលគិរី'
+# ss = ''
 words = ss.split('​')
+
+# Clean words
+adjust_words = []
+for i in range(0, len(words)):
+    word = clean_word(words[i])
+    if word != '':
+        adjust_words.append(word)
+
+words = adjust_words
 print(words)
+
+features = sentence_to_features(dictionary, words)
 result = predict_category(features)
 print('Predict result: ' + str(result[0]) + ' => ' + result[1] + '\n')
 
@@ -47,6 +57,7 @@ if result[0] > 0:
 
         print('---------------------------------------------------------------------------------------------------------')
 
+    print('\n Update keywords frequency')
     # Update keyword frequency of found category
     for keyword in words:
         print('- ' + keyword)
