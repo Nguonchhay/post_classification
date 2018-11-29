@@ -30,8 +30,8 @@ def training():
 
     save(clf, filename)
     return jsonify({
-        'status': 200,
-        'message': 'Save the classifier from dataset'
+        'statusCode': 200,
+        'message': 'Save the classifier from dataset.'
     })
 
 
