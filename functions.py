@@ -110,6 +110,7 @@ def check_trained_keyword_exist(category, keyword):
 
 # Save new keywords to the found category
 def update_keyword_frequency(category, keyword, enable_msg = False):
+    print(category)
     query_keyword = check_trained_keyword_exist(category, keyword)
     if query_keyword is None:
         update_query = 'INSERT INTO keywords(category_id,text,frequency) VALUES('
@@ -125,6 +126,35 @@ def update_keyword_frequency(category, keyword, enable_msg = False):
             databaseCon.Database.execute(con, update_query)
             if enable_msg:
                 print('==> Keyword: "' + keyword + '" was updated frequency from ' + str(frequency) + ' to : ' + str(frequency + 1))
+
+
+# Save new keywords to the found category for web request
+def update_keyword_frequency_for_web(category, keyword):
+    print(category)
+    query_keyword = check_trained_keyword_exist(category, keyword)
+    message = {}
+    if query_keyword is None:
+        update_query = 'INSERT INTO keywords(category_id,text,frequency) VALUES('
+        update_query += str(category) + ',"' + keyword + '",1)'
+        databaseCon.Database.execute(con, update_query)
+        message = {
+            'word': keyword,
+            'old_frequency': '1',
+            'new_frequency': '1'
+        }
+    else:
+        frequency = int(query_keyword[3])
+        if frequency < (keyword_frequency + 1):
+            update_query = 'UPDATE keywords SET frequency=' + str(frequency + 1)
+            update_query += ' WHERE id=' + str(query_keyword[0])
+            databaseCon.Database.execute(con, update_query)
+            message = {
+                'word': keyword,
+                'old_frequency': str(frequency),
+                'new_frequency': str(frequency + 1)
+            }
+
+    return message
 
 
 # Generate sample for none category keywords
