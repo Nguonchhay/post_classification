@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Testing | RUPP Thesis</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -32,6 +32,7 @@
 
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
+    <link href="css/app.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -140,7 +141,8 @@
                                     <div class="card-body card-block">
                                         <div class="form-group">
                                             <label for="company" class=" form-control-label">Khmer words</label>
-                                            <input type="text" id="sentence" placeholder="Enter Khmer words to search" class="form-control">
+                                            <input type="text" id="sentence" placeholder="Paste Khmer words to search" class="form-control" value="កីឡាករ​រមណីដ្ឋាន​នៃ​ប្រទេសកម្ពុជា​នៅ​ខេត្តមណ្ឌលគិរី">
+                                            <small>Khmer words that have the white-space between</small>
                                         </div>
 
                                         <div class="form-group">
@@ -149,29 +151,40 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <p id="status">Searching ...</p>
-                                        <h2>Found News:</h2>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-12">
+                                <h2><p id="message"></p></h2>
+                                <div id="resultContainer" class="card">
+                                    <div class="card-header">
+                                        <h4>Search Result</h4>
+                                    </div>
+                                    <div class="card-body">
                                         <div class="col-sm-6 col-lg-12">
-                                            <div class="table-responsive m-b-40">
-                                                <table class="table table-borderless table-data3">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Title</th>
-                                                            <th>Description</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>2018-09-29 05:57</td>
-                                                            <td>Mobile</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2018-09-28 01:22</td>
-                                                            <td>Mobile</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                            <div class="summary">
+                                                <ul>
+                                                    <li>Executed Time (ms): <span id="executeTime"></span></li>
+                                                    <li>Found Category: <span id="categoryName"></span></li>
+                                                    <li>
+                                                        Existing Keywords:
+                                                    </li>
+                                                    <li>
+                                                        New Keywords:
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-tab">
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+                                                </div>
+                                            </nav>
+
+                                            <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+
                                             </div>
                                         </div>
                                     </div>

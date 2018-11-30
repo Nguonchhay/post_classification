@@ -130,7 +130,6 @@ def update_keyword_frequency(category, keyword, enable_msg = False):
 
 # Save new keywords to the found category for web request
 def update_keyword_frequency_for_web(category, keyword):
-    print(category)
     query_keyword = check_trained_keyword_exist(category, keyword)
     message = {}
     if query_keyword is None:

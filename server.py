@@ -4,16 +4,16 @@ from operator import itemgetter, attrgetter
 import time
 
 from functions import *
-
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
+
 
 app = Flask(__name__)
 # Allow cross origin request from Javascript
 CORS(app)
 
 
-@app.route("/training", methods=["POST"])
+@app.route('/training', methods=['POST'])
 def training():
     dictionary = make_keywords_dictionary()
     features, labels = make_keywords_dataset(dictionary)
@@ -35,12 +35,14 @@ def training():
     })
 
 
-@app.route("/classify", methods=["GET"])
+@app.route('/classify', methods=['POST'])
 def classify():
     start_time = str(time.time())
     # Do not forget to re-train in case there are new keywords
     dictionary = make_keywords_dictionary()
-    sentence = 'កីឡាករ​រមណីដ្ឋាន​នៃ​ប្រទេសកម្ពុជា​នៅ​ខេត្តមណ្ឌលគិរី'
+
+    # Get POST params from request
+    sentence = request.json.get('sentence')
     words = sentence.split('​')
 
     # Clean words
@@ -66,20 +68,23 @@ def classify():
         sort_keyword_posts = sorted(keyword_posts, key=itemgetter(0), reverse=True)
 
         # Update new keyword frequency of found category
-        new_keywords = {}
+        news_keywords = {}
         for keyword in words:
-            new_keywords[keyword] = update_keyword_frequency_for_web(found_category_id, keyword)
+            news_keywords[keyword] = update_keyword_frequency_for_web(found_category_id, keyword)
 
         end_time = str(time.time())
         return jsonify({
             'statusCode': 200,
             'data': {
                 'news': sort_keyword_posts,
-                'category_id': str(found_category_id),
-                'new_keywords': new_keywords
+                'category': {
+                    'id': str(found_category_id),
+                    'name': result[1]
+                },
+                'news_keywords': news_keywords,
+                'start_time': start_time,
+                'end_time': end_time
             },
-            'start_time': start_time,
-            'end_time': end_time,
             'message': 'All found posts'
         })
     else:
