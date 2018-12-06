@@ -30,40 +30,6 @@ def craw_posts():
                             print('There is no post data from ' + link_post)
 
 
-# Find keywords for category
-def find_keywords_by_posts():
-    tokenized_posts = get_tokenized_posts_group_by_category_folders()
-    category_keywords = init_category_keywords()
-    for tokenized_post in tokenized_posts:
-        obj_file = open(tokenized_post)
-        if obj_file is not None:
-            # Split by white space (hidden space)
-            words = obj_file.read().split('​')
-
-            # @TODO: move this logic to a proper method
-            all_words = []
-            for i in range(len(words)):
-                words[i] = clean_word(words[i])
-                if ' ' in words[i]:
-                    all_words += words[i].split(' ')
-                else:
-                    all_words.append(words[i])
-
-            category = get_compare_category_label(tokenized_post)
-            category_keywords[category] += all_words
-
-    # Clean keywords from database
-    clean_table_db('keywords')
-
-    # Save all categories keywords to database
-    for category in category_keywords:
-        keyword_dictionary = Counter(category_keywords[category])
-        del keyword_dictionary['']
-
-        # Save keywords to database
-        save_keywords_db(category, keyword_dictionary)
-
-
 # Clean posts
 # clean_craw_post()
 
