@@ -88,8 +88,9 @@
 
                         tabContents += '<div class="tab-pane fade ' + (index == 0 ? 'active' : '') + ' show" id="custom-nav-' + index + '" role="tabpanel" aria-labelledby="custom-nav-tab-' + index + '">';
                             tabContents += '<div class="au-task-list js-scrollbar3">'
+                            var newsNum = 1;
                             $.each(item[2], function(indexNews, newsRecord) {
-                                tabContents += '<div class="au-task__item-inner"><h3 class="task">' + newsRecord[2] + '</h3><p>' + newsRecord[3] + '</p></div>';
+                                tabContents += '<div class="au-task__item-inner"><h3 class="task">' + (newsNum++) + '. ' + newsRecord[2] + '</h3><p>' + newsRecord[3] + '</p></div>';
                             });
                         tabContents += '</div></div>';
                     });
