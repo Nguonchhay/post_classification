@@ -44,6 +44,8 @@
                 method: 'POST',
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8"
+            }).fail(function(error) {
+                message.html('Something went wrong. Please check your server status or reload the page.');
             }).done(function(res) {
                 message.html('Rendering to UI ...');
                 if (res.data.category === undefined) {

@@ -362,7 +362,7 @@ def sentence_to_features(dict, words):
 
 # Predict sentence
 def predict_category(features):
-    clf = load_dataset('category-classifier.p')
+    clf = load_dataset('category-model.classifier')
     res = clf.predict([features])
     predict = ["none", "កីឡា", "ទេសចរណ៍", "ឡាននិងបច្ចេកវិទ្យា", "សុខភាពនិងសម្រស់", "ម្ហូប"][res[0]]
     return [res[0], predict]

@@ -24,7 +24,7 @@ def training():
     clf = MultinomialNB()
     clf.fit(x_train, y_train)
 
-    filename = 'category-classifier.p'
+    filename = 'category-model.classifier'
     # delete trained file
     delete_file(filename)
 
