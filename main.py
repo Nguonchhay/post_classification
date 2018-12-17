@@ -34,7 +34,6 @@ for i in range(0, len(words)):
 
 words = adjust_words
 print(words)
-
 features = sentence_to_features(dictionary, words)
 result = predict_category(features)
 print('Predict result: ' + str(result[0]) + ' => ' + result[1] + '\n')

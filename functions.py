@@ -198,31 +198,31 @@ def generate_none_category_keywords():
 # Create keywords dictionary from database
 def make_keywords_dictionary():
     # Select all keyword that happen more than 9 times
-    query = 'SELECT category_id, text FROM keywords WHERE frequency > ' + str(keyword_frequency) + ' ORDER BY category_id;'
+    query = 'SELECT category_id, text, frequency FROM keywords WHERE frequency > ' + str(keyword_frequency) + ' ORDER BY category_id;'
     query_result = databaseCon.Database.execute_query(con, query)
     # keywords = generate_none_category_keywords()
     keywords = []
     for result in query_result:
-        keywords.append([result[0], result[1]])
+        keywords.append(result)
 
     return keywords
 
 
-# Create dictionary from post
+# Create dataset from post
 def make_keywords_dataset(dictionary):
     features_set = []
     labels_set = []
 
-    categories = [0, 1, 2, 3, 4, 5]
-    for category in categories:
+    sql = 'SELECT id,category_id,title,content,keywords FROM posts'
+    query_posts = databaseCon.Database.execute_query(con, sql)
+    for query_post in query_posts:
+        words = query_post[2].split('​') + query_post[3].split('​')
+
         data = []
         for entry in dictionary:
-            if entry[0] == category:
-                data.append(1)
-            else:
-                data.append(0)
+            data.append(words.count(entry[1]))
         features_set.append(data)
-        labels_set.append(category)
+        labels_set.append(query_post[1])
 
     return features_set, labels_set
 
