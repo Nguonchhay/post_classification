@@ -13,8 +13,11 @@
             method: 'POST',
             dataType: 'json',
             contentType: "application/json; charset=utf-8"
+        }).fail(function(error) {
+            message.html('Something went wrong. Please check your server status or reload the page.');
         }).done(function(res) {
-            message.html('Training is done.');
+            var accuracy = parseFloat(res.data.accuracy_score);
+            message.html('Training is done with accuracy: <strong>' + accuracy.toFixed(4) + '</strong>');
         });
     });
 

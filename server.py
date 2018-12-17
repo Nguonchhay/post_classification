@@ -1,6 +1,7 @@
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split as tts
 from operator import itemgetter, attrgetter
+from sklearn.metrics import accuracy_score
 import time
 
 from functions import *
@@ -24,6 +25,9 @@ def training():
     clf = MultinomialNB()
     clf.fit(x_train, y_train)
 
+    preds = clf.predict(x_test)
+    accuracy = accuracy_score(y_test, preds)
+
     filename = 'category-model.classifier'
     # delete trained file
     delete_file(filename)
@@ -31,6 +35,9 @@ def training():
     save(clf, filename)
     return jsonify({
         'statusCode': 200,
+        'data': {
+            'accuracy_score': str(accuracy)
+        },
         'message': 'Save the classifier from dataset.'
     })
 
