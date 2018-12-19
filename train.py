@@ -5,6 +5,7 @@ from sklearn.metrics import accuracy_score
 from functions import *
 
 
+print('Start training...')
 dictionary = make_keywords_dictionary()
 features, labels = make_keywords_dataset(dictionary)
 

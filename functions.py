@@ -144,7 +144,6 @@ def check_trained_keyword_exist(category, keyword):
 
 # Save new keywords to the found category
 def update_keyword_frequency(category, keyword, enable_msg = False):
-    print(category)
     query_keyword = check_trained_keyword_exist(category, keyword)
     if query_keyword is None:
         update_query = 'INSERT INTO keywords(category_id,text,frequency) VALUES('
@@ -200,12 +199,7 @@ def make_keywords_dictionary():
     # Select all keyword that happen more than 9 times
     query = 'SELECT category_id, text, frequency FROM keywords WHERE frequency > ' + str(keyword_frequency) + ' ORDER BY category_id;'
     query_result = databaseCon.Database.execute_query(con, query)
-    # keywords = generate_none_category_keywords()
-    keywords = []
-    for result in query_result:
-        keywords.append(result)
-
-    return keywords
+    return query_result
 
 
 # Create dataset from post
@@ -213,7 +207,7 @@ def make_keywords_dataset(dictionary):
     features_set = []
     labels_set = []
 
-    sql = 'SELECT id,category_id,title,content,keywords FROM posts'
+    sql = 'SELECT id,category_id,title,content,keywords FROM posts ORDER BY category_id'
     query_posts = databaseCon.Database.execute_query(con, sql)
     for query_post in query_posts:
         words = query_post[2].split('​') + query_post[3].split('​')

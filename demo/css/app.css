@@ -5,3 +5,11 @@
 .summary {
     margin-bottom: 30px;
 }
+
+.au-task__item-inner h2.task {
+    font-size: 20px;
+}
+
+.au-task__item-inner p {
+    padding-top: 10px;
+}

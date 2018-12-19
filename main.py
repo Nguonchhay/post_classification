@@ -12,17 +12,18 @@ def get_search_sentences():
     return search_sentences
 
 
-# Do not forget to re-train in case there are new keywords
-dictionary = make_keywords_dictionary()
-
 # search_sentences = get_search_sentences()
 # for sentence in search_sentences:
 #     features = convert_to_features(dictionary, sentence)
 #     result = predict_category(features)
 #     print(result[0] + ' => ' + result[1])
 
-ss = 'កីឡាករ​រមណីដ្ឋាន​នៃ​ប្រទេសកម្ពុជា​នៅ​ខេត្តមណ្ឌលគិរី'
-# ss = ''
+# ss = 'កីឡាករ​រមណីដ្ឋាន​នៃ​ប្រទេសកម្ពុជា​នៅ​ខេត្តមណ្ឌលគិរី'
+# ss = 'រមណីដ្ឋាន'
+# ss = 'រមណីយដ្ឋាន​ធម្មជាតិ'
+# ss = 'ធម្មជាតិ'
+# ss = 'កីឡាករ​ធម្មជាតិ'
+ss = 'ធម្មជាតិ​កីឡាករ'
 words = ss.split('​')
 
 # Clean words
@@ -34,6 +35,9 @@ for i in range(0, len(words)):
 
 words = adjust_words
 print(words)
+
+# Do not forget to re-train in case there are new keywords
+dictionary = make_keywords_dictionary()
 features = sentence_to_features(dictionary, words)
 result = predict_category(features)
 print('Predict result: ' + str(result[0]) + ' => ' + result[1] + '\n')

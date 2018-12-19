@@ -88,6 +88,7 @@
 
                     // Rendering News
                     var news = res.data.news;
+                    var categories = ["none", "កីឡា", "ទេសចរណ៍", "ឡាននិងបច្ចេកវិទ្យា", "សុខភាពនិងសម្រស់", "ម្ហូប"];
                     $.each(news, function(index, item) {
                         tabTitles += '<a class="nav-item nav-link ' + (index == 0 ? 'active' : '') + ' show" id="custom-nav-tab-' + index + '" data-toggle="tab" href="#custom-nav-' + index + '" role="tab" aria-controls="custom-nav-home" aria-selected="true">' + item[1] + '(' + item[0] + ')</a>';
 
@@ -95,7 +96,8 @@
                             tabContents += '<div class="au-task-list js-scrollbar3">'
                             var newsNum = 1;
                             $.each(item[2], function(indexNews, newsRecord) {
-                                tabContents += '<div class="au-task__item-inner"><h3 class="task">' + (newsNum++) + '. ' + newsRecord[2] + '</h3><p>' + newsRecord[3] + '</p></div>';
+                                var categoryId = newsRecord[1];
+                                tabContents += '<div class="au-task__item-inner"><h2 class="task">' + (newsNum++) + '. ' + newsRecord[2] + '</h2><strong><em>' + categories[categoryId] + '</em></strong><p>' + newsRecord[3] + '</p></div>';
                             });
                         tabContents += '</div></div>';
                     });

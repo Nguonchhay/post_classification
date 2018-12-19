@@ -4,7 +4,7 @@ The purpose of this project is for thesis.
 
 ## Environment Requirement
 
-* Python version >= 3.6
+* Python version >= 3.7
 
 * MySQL
 
