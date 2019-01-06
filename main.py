@@ -23,7 +23,8 @@ def get_search_sentences():
 # ss = 'រមណីយដ្ឋាន​ធម្មជាតិ'
 # ss = 'ធម្មជាតិ'
 # ss = 'កីឡាករ​ធម្មជាតិ'
-ss = 'ធម្មជាតិ​កីឡាករ'
+# ss = 'ធម្មជាតិ​កីឡាករ'
+ss = 'afsfsdfsd'
 words = ss.split('​')
 
 # Clean words
