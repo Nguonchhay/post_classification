@@ -17,7 +17,7 @@ def craw_posts():
                 num_post = 1
                 for link_post in link_posts:
                     link_post = link_post.strip()
-                    if link_post != '':
+                    if not link_post.startswith('#') and link_post != '':
                         post_content = get_post_data_from_online(link_post)
                         if post_content is not '':
                             # Save post to file
