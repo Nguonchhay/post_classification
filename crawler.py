@@ -5,7 +5,7 @@ from functions import *
 # Crawl post
 def craw_posts():
     print('--- Start Crawl Post from Phnom Penh Post News ----\n')
-    data_directory = "20181023_posts/"
+    data_directory = "post_links/"
     files = os.listdir(data_directory)
     file_categories = [data_directory + category for category in files]
     for file_category in file_categories:
