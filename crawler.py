@@ -1,5 +1,6 @@
 from collections import Counter
 from functions import *
+import os
 
 
 # Crawl post
@@ -30,13 +31,20 @@ def craw_posts():
                             print('There is no post data from ' + link_post)
 
 
+# Create post folder to store crawled posts
+directory = 'raw_posts'
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
 # Clean posts
 # clean_craw_post()
 
 # Re-crawl post
 # craw_posts()
 
+##
 # Save tokenized post to data
+#
 
 # Find keywords by tokenized posts and group by category
 find_keywords_by_posts()
