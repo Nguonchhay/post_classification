@@ -106,6 +106,7 @@ def find_keywords_by_posts():
     tokenized_posts = get_tokenized_posts_group_by_category_folders()
     category_keywords = init_category_keywords()
     for tokenized_post in tokenized_posts:
+        print('Loading from file: ' + tokenized_post)
         obj_file = open(tokenized_post)
         if obj_file is not None:
             # Split by white space (hidden space)

@@ -37,9 +37,11 @@ if not os.path.exists(directory):
     os.makedirs(directory)
 
 # Clean posts
+# print('Clean posts ...')
 # clean_craw_post()
 
 # Re-crawl post
+# print('Re-crawl posts ...')
 # craw_posts()
 
 ##
@@ -47,7 +49,11 @@ if not os.path.exists(directory):
 #
 
 # Find keywords by tokenized posts and group by category
+print('Find keywords by tokenized posts and group by category ...')
 find_keywords_by_posts()
 
 # Save tokenized posts and its keywords
+print('Save tokenized posts and its keywords ...')
 save_posts_and_keywords()
+
+print('\n--- DONE ----')
